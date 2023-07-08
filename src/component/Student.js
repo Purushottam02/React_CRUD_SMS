@@ -1,4 +1,4 @@
-import "./style/Student.css";
+import "./style/Student.scss";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { deleteStudent, getStudents, getStudentsDetails } from "../service";
@@ -78,7 +78,6 @@ function StudentTable(props) {
         <div>
           <button onClick={Addstudent}>Add Student</button>
         </div>
-
         <div className="pageselector">
           <select name="items" value={pageSelect} onChange={handlechangePage}>
             {pagesize.map((index, lable) => {
@@ -112,17 +111,17 @@ function StudentTable(props) {
               <>
                 <div className="table" key={`${text}${i}`}>
                   <div
-                    className="id"
+                    className="rollNo"
                     onClick={() => StudentDetails(student.rollNo)}
                   >
                     {student.rollNo}
                   </div>
-                  <div className="id">{student.name}</div>
-                  <div className="title">{student.gender}</div>
-                  <div className="desc">{student.physics}</div>
-                  <div className="price">{student.maths}</div>
-                  <div className="price">{student.english}</div>
-                  <div onClick={() => EditDetails(student.rollNo)}>✎</div>
+                  <div className="name">{student.name}</div>
+                  <div className="gender">{student.gender}</div>
+                  <div className="physics">{student.physics}</div>
+                  <div className="maths">{student.maths}</div>
+                  <div className="english">{student.english}</div>
+                  <div className="editdetails"onClick={() => EditDetails(student.rollNo)}>✎</div>
                   <div
                     className={student.isDeleting ? "disable" : ""}
                     onClick={() => deleteStudentAction(student.rollNo, i)}

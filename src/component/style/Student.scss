@@ -1,0 +1,73 @@
+.student-table {
+  margin-top: 20px;
+  margin: 20px 5px 5px 20px;
+  display: table;
+  width: 98%;
+
+  .table-hader {
+    display: flex;
+    justify-content: space-around;
+    border: 1px solid black;
+    width: 98%;
+    text-align: center;
+
+    .hader-text {
+      padding: 0 5px 0 5px;
+    }
+
+    .hader-text:last-child {
+      text-align: end;
+    }
+  }
+
+  .container {
+    .table {
+      display: flex;
+      justify-content: space-around;
+      border: 1px solid black;
+      text-align: center;
+      width: 98%;
+
+      .rollNo {
+        width: 20px;
+        // margin-left:  -36px;
+      }
+
+      .name {
+        width: 60px;
+        // margin: left 10px;
+
+      }
+
+      .gender {
+        width: 5px;
+        // margin: left 10px;
+
+      }
+
+      .physics {
+        width: 24px;
+        // margin: left 10px;
+
+      }
+      .maths {
+        width: 20px;
+        // margin: left 10px;
+
+      }
+      .english {
+        width: 20px;
+        // margin: left 10px;
+
+      }
+      .disable {
+        // margin: left 10px;
+        pointer-events: none;
+        opacity: 0.3;
+      }
+      .editdetails{
+        width: 5px;
+      }
+    }
+  }
+}

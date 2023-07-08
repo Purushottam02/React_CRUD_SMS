@@ -1,4 +1,4 @@
-import "./style/Student.css";
+import "./style/Student.scss";
 import { useEffect, useState } from "react";
 import { getStudentDetails } from "../service";
 import { useParams } from "react-router-dom";
@@ -37,3 +37,8 @@ function StudentDetails() {
 }
 
 export default StudentDetails;
+
+// .disable{
+//   pointer-events: none;
+//   opacity: 0.3;
+// }
