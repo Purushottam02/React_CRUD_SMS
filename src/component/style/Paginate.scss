@@ -1,0 +1,20 @@
+.pagination {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid black;
+  width: 30%;
+  margin: 0 auto;
+  padding: 0%;
+
+  .page-item {
+    a:hover {
+      background-color: yellow;
+    }
+    .page-link {
+      align-items: center;
+      text-decoration: none;
+      color: rgb(16, 15, 15);
+    }
+  }
+}

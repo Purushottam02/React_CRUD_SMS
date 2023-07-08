@@ -1,0 +1,55 @@
+.student-table {
+  margin: 20px 5px 5px 20px;
+  display: table;
+  width: 98%;
+}
+
+.table-hader {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  width: 98%;
+}
+
+.options {
+  display: flex;
+}
+
+.hader-text {
+  padding: 0 5px 0 5px;
+}
+
+.hader-text:last-child {
+  text-align: end;
+}
+
+.disable{
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.table {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid black;
+  width: 98%;
+}
+
+.id {
+  width: 20px;
+  margin-left: 10px;
+}
+
+.title {
+  width: 60px;
+  margin-left: 180px;
+}
+
+.desc {
+  width: 300px;
+  margin-left: 50px;
+}
+
+.price {
+  width: 40px;
+}
