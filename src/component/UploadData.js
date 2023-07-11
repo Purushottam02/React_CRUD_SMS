@@ -27,7 +27,6 @@ function UploadData() {
         "http://localhost:8000/students/upload",
         formData
       );
-      console.log(response.data);
     } catch (error) {
       console.log("Error:", error);
     }

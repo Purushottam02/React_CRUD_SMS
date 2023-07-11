@@ -16,7 +16,6 @@ function StudentDetails() {
   useEffect(() => {
     init();
   }, [rollNo]);
-  console.log(data);
   return (
     <div className="box">
       <>
