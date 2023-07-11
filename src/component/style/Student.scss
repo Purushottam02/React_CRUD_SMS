@@ -27,6 +27,9 @@
       border: 1px solid black;
       text-align: center;
       width: 98%;
+      &.max-score {
+        background-color: yellow;
+      }
 
       .rollNo {
         width: 20px;
@@ -36,36 +39,31 @@
       .name {
         width: 60px;
         // margin: left 10px;
-
       }
 
       .gender {
         width: 5px;
         // margin: left 10px;
-
       }
 
       .physics {
         width: 24px;
         // margin: left 10px;
-
       }
       .maths {
         width: 20px;
         // margin: left 10px;
-
       }
       .english {
         width: 20px;
         // margin: left 10px;
-
       }
       .disable {
         // margin: left 10px;
         pointer-events: none;
         opacity: 0.3;
       }
-      .editdetails{
+      .editdetails {
         width: 5px;
       }
     }

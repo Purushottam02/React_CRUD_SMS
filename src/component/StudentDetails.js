@@ -1,11 +1,11 @@
-import "./style/Student.scss";
+import "./style/StudentDetails.scss";
 import { useEffect, useState } from "react";
 import { getStudentDetails } from "../service";
 import { useParams } from "react-router-dom";
 
 const text = "this is unique key";
 function StudentDetails() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   const { rollNo } = useParams();
 
   const init = async () => {
@@ -18,19 +18,19 @@ function StudentDetails() {
   }, [rollNo]);
   console.log(data);
   return (
-    <div className="container">
+    <div className="box">
       <>
-        <label>RollNo:{data.rollNo}</label>
+        <div>RollNo:{data.rollNo}</div>
         <br />
-        <label>Name:{data.name}</label>
+        <div>Name:{data.name}</div>
         <br />
-        <label>Gender:{data.gender}</label>
+        <div>Gender:{data.gender}</div>
         <br />
-        <label>Physics:{data.physics}</label>
+        <div>Physics:{data.physics}</div>
         <br />
-        <label>Maths:{data.maths}</label>
+        <div>Maths:{data.maths}</div>
         <br />
-        <label>English:{data.english}</label>
+        <div>English:{data.english}</div>
       </>
     </div>
   );
@@ -38,7 +38,3 @@ function StudentDetails() {
 
 export default StudentDetails;
 
-// .disable{
-//   pointer-events: none;
-//   opacity: 0.3;
-// }

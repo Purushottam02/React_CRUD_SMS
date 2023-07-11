@@ -4,12 +4,12 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const Editstudent = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState({});
+  const [students, setstudents] = useState({});
   const { rollNo } = useParams();
 
   const init = async () => {
     const student = await getStudentDetails(rollNo);
-    setData(student);
+    setstudents(student);
   };
 
   useEffect(() => {
@@ -18,18 +18,17 @@ const Editstudent = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setData((data) => ({
-      ...data,
-      [name]: value
+    setstudents((students) => ({
+      ...students,
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await editStudentDetails(rollNo, data);
+    await editStudentDetails(rollNo, students);
     navigate("/");
-    
   };
 
   return (
@@ -39,7 +38,7 @@ const Editstudent = () => {
         <input
           type="text"
           name="name"
-          value={data.name}
+          value={students.name}
           onChange={handleChange}
         />
       </label>
@@ -49,7 +48,7 @@ const Editstudent = () => {
         <input
           type="text"
           name="gender"
-          value={data.gender}
+          value={students.gender}
           onChange={handleChange}
         />
       </label>
@@ -59,7 +58,7 @@ const Editstudent = () => {
         <input
           type="text"
           name="physics"
-          value={data.physics}
+          value={students.physics}
           onChange={handleChange}
         />
       </label>
@@ -69,7 +68,7 @@ const Editstudent = () => {
         <input
           type="text"
           name="maths"
-          value={data.maths}
+          value={students.maths}
           onChange={handleChange}
         />
       </label>
@@ -79,7 +78,7 @@ const Editstudent = () => {
         <input
           type="text"
           name="english"
-          value={data.english}
+          value={students.english}
           onChange={handleChange}
         />
       </label>

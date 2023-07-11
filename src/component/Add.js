@@ -6,21 +6,21 @@ import { createStudents } from "../service";
 function Addstudent() {
   const Navigate = useNavigate();
 
-  const [inputData, setInputData] = useState({});
+  const [formData, setformData] = useState({});
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      createStudents(inputData);
+      createStudents(formData);
     } catch (error) {
       console.error(error);
     }
-    Navigate('/')
+    Navigate("/");
   };
 
   const handleInputChange = (event) => {
-    setInputData({
-      ...inputData,
+    setformData({
+      ...formData,
       [event.target.name]: event.target.value,
     });
   };
@@ -29,24 +29,13 @@ function Addstudent() {
     <>
       <div className="Container">
         <form onSubmit={handleSubmit}>
-          {/* <div className="name">
-            Enter RollNo
-            <span>
-              <input
-                name="rollNo"
-                type="text"
-                value={inputData.rollNo}
-                onChange={handleInputChange}
-              />
-            </span>
-          </div> */}
           <div className="name">
             Enter Name
             <span>
               <input
                 name="name"
                 type="text"
-                value={inputData.name}
+                value={formData.name}
                 onChange={handleInputChange}
               />
             </span>
@@ -57,7 +46,7 @@ function Addstudent() {
               <input
                 name="gender"
                 type="text"
-                value={inputData.gender}
+                value={formData.gender}
                 onChange={handleInputChange}
               />
             </span>
@@ -68,7 +57,7 @@ function Addstudent() {
               <input
                 name="physics"
                 type="text"
-                value={inputData.physics}
+                value={formData.physics}
                 onChange={handleInputChange}
               />
             </span>
@@ -79,7 +68,7 @@ function Addstudent() {
               <input
                 name="maths"
                 type="text"
-                value={inputData.maths}
+                value={formData.maths}
                 onChange={handleInputChange}
               />
             </span>
@@ -90,7 +79,7 @@ function Addstudent() {
               <input
                 name="english"
                 type="text"
-                value={inputData.english}
+                value={formData.english}
                 onChange={handleInputChange}
               />
             </span>
