@@ -4,22 +4,22 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const Editstudent = () => {
   const navigate = useNavigate();
-  const [students, setstudents] = useState({});
+  const [student, setStudent] = useState({});
   const { rollNo } = useParams();
 
-  const init = async () => {
-    const student = await getStudentDetails(rollNo);
-    setstudents(student);
-  };
-
   useEffect(() => {
-    init();
+    const fetchStudentDetails = async () => {
+      const student = await getStudentDetails(rollNo);
+      setStudent(student);
+    };
+
+    fetchStudentDetails();
   }, [rollNo]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setstudents((students) => ({
-      ...students,
+    setStudent((prevStudent) => ({
+      ...prevStudent,
       [name]: value,
     }));
   };
@@ -27,8 +27,13 @@ const Editstudent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await editStudentDetails(rollNo, students);
-    navigate("/");
+    try {
+      await editStudentDetails(rollNo, student);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+      // Handle error
+    }
   };
 
   return (
@@ -38,7 +43,7 @@ const Editstudent = () => {
         <input
           type="text"
           name="name"
-          value={students.name}
+          value={student.name}
           onChange={handleChange}
         />
       </label>
@@ -48,17 +53,17 @@ const Editstudent = () => {
         <input
           type="text"
           name="gender"
-          value={students.gender}
+          value={student.gender}
           onChange={handleChange}
         />
       </label>
       <br />
       <label>
-        physics:
+        Physics:
         <input
           type="text"
           name="physics"
-          value={students.physics}
+          value={student.physics}
           onChange={handleChange}
         />
       </label>
@@ -68,7 +73,7 @@ const Editstudent = () => {
         <input
           type="text"
           name="maths"
-          value={students.maths}
+          value={student.maths}
           onChange={handleChange}
         />
       </label>
@@ -78,10 +83,11 @@ const Editstudent = () => {
         <input
           type="text"
           name="english"
-          value={students.english}
+          value={student.english}
           onChange={handleChange}
         />
       </label>
+      <br />
       <button type="submit">Submit</button>
     </form>
   );

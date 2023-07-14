@@ -5,18 +5,9 @@ import { deleteStudent, getStudents } from "../service";
 import Paginate from "./Paginate";
 import SearchBar from "./Search";
 import UploadData from "./UploadData";
-import getTopScoreRollNo from "./utils/GetMax";
+import {HEDER_TEXT } from "../constant";
+import getTopScoreRollNo from "../utils";
 
-const header = [
-  "Roll No",
-  "Student Name",
-  "Gender",
-  "Physics",
-  "Maths",
-  "English",
-  "Edit",
-  "Delete",
-];
 const text = "this is unique key";
 
 function StudentTable() {
@@ -100,47 +91,28 @@ function StudentTable() {
 
       <div className="student-table">
         <div className="table-hader">
-          {header.map((index, label) => {
+          {Object.keys(HEDER_TEXT).map((field) => {
             return (
-              <div
-                className="hader-text"
-                key={`${text}${label}`}
-              >{`${index}`}</div>
+              <div key={field} className="row">
+                <span className="field">{HEDER_TEXT[field]}</span>
+              </div>
             );
           })}
         </div>
         <div className="container">
           {tableData.map((student, i) => {
             var isMaxScore = student.rollNo == MaxScoreRollNo;
-
+            const {rollNo,name,gender,physics,maths,english}=student
             return (
-              <div
-                className={isMaxScore ? "table max-score" : "table"}
-                key={`${text}${i}`}
-              >
-                <div
-                  className="rollNo"
-                  onClick={() => StudentDetails(student.rollNo)}
-                >
-                  {student.rollNo}
-                </div>
-                <div className="name">{student.name}</div>
-                <div className="gender">{student.gender}</div>
-                <div className="physics">{student.physics}</div>
-                <div className="maths">{student.maths}</div>
-                <div className="english">{student.english}</div>
-                <div
-                  className="editdetails"
-                  onClick={() => EditDetails(student.rollNo)}
-                >
-                  ✎
-                </div>
-                <div
-                  className={student.isDeleting ? "disable" : ""}
-                  onClick={() => deleteStudentAction(student.rollNo, i)}
-                >
-                  🗑
-                </div>
+              <div className={isMaxScore ? "table max-score" : "table"} key={`${text}${i}`}>
+                <a className="rollNo" href="#" onClick={() => StudentDetails(rollNo)}>{student.rollNo}</a>
+                <div className="name">{name}</div>
+                <div className="gender">{gender}</div>
+                <div className="physics">{physics}</div>
+                <div className="maths">{maths}</div>
+                <div className="english">{english}</div>
+                <div className="editdetails" onClick={() => EditDetails(rollNo)}>✎</div>
+                <div className={student.isDeleting ? "disable" : ""} onClick={() => deleteStudentAction(rollNo, i)}>🗑</div>
               </div>
             );
           })}

@@ -11,8 +11,12 @@
     width: 98%;
     text-align: center;
 
-    .hader-text {
+    .row {
+      display: flex;
       padding: 0 5px 0 5px;
+      .field{
+        padding: 5px;
+      }
     }
 
     .hader-text:last-child {
@@ -33,6 +37,8 @@
 
       .rollNo {
         width: 20px;
+        // color: blue;
+        text-decoration: none;
         // margin-left:  -36px;
       }
 

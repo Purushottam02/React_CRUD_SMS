@@ -2,38 +2,36 @@ import "./style/StudentDetails.scss";
 import { useEffect, useState } from "react";
 import { getStudentDetails } from "../service";
 import { useParams } from "react-router-dom";
+import { DISPLAY_MAP } from "../constant";
 
-const text = "this is unique key";
 function StudentDetails() {
-  const [data, setData] = useState([]);
+  const [students, setStudents] = useState();
   const { rollNo } = useParams();
 
-  const init = async () => {
-    const student = await getStudentDetails(rollNo);
-    setData(student);
-  };
-
   useEffect(() => {
+    const init = async () => {
+      const student = await getStudentDetails(rollNo);
+      setStudents(student);
+    };
+
     init();
   }, [rollNo]);
+
   return (
-    <div className="box">
-      <>
-        <div>RollNo:{data.rollNo}</div>
-        <br />
-        <div>Name:{data.name}</div>
-        <br />
-        <div>Gender:{data.gender}</div>
-        <br />
-        <div>Physics:{data.physics}</div>
-        <br />
-        <div>Maths:{data.maths}</div>
-        <br />
-        <div>English:{data.english}</div>
-      </>
+    <div className="box-wrapper">
+      <div className="box">
+        <div className="details">
+          {students &&
+            Object.keys(students).map((field) => (
+              <div key={field} className="row">
+                <span className="field">{DISPLAY_MAP[field]}:</span>
+                <span className="value">{students[field]}</span>
+              </div>
+            ))}
+        </div>
+      </div>
     </div>
   );
 }
 
 export default StudentDetails;
-

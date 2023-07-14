@@ -1,6 +1,12 @@
 import React from "react";
 import "./style/Paginate.scss";
-const Paginate = ({ postsPerPage, totalPosts, paginate,handleChangeRowsPerPage }) => {
+
+const Paginate = ({
+  postsPerPage,
+  totalPosts,
+  paginate,
+  handleChangeRowsPerPage,
+}) => {
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
@@ -12,7 +18,12 @@ const Paginate = ({ postsPerPage, totalPosts, paginate,handleChangeRowsPerPage }
       <ul className="pagination">
         {pageNumbers.map((number) => (
           <li key={number} className="page-item">
-            <a onClick={() => paginate(number)} href="#" className="page-link" onChange={handleChangeRowsPerPage}>
+            <a
+              href="#"
+              className="page-link"
+              onClick={() => paginate(number)}
+              onChange={handleChangeRowsPerPage}
+            >
               {number}
             </a>
           </li>

@@ -4,13 +4,16 @@ import { getStudents } from "../service";
 
 function UploadData() {
   const [data, setData] = useState([]);
+
   const init = async () => {
     const student = await getStudents();
     setData(student);
   };
+
   useEffect(() => {
     init();
   }, []);
+
   const [file, setFile] = useState(null);
 
   const handleFileChange = (event) => {
@@ -27,17 +30,18 @@ function UploadData() {
         "http://localhost:8000/students/upload",
         formData
       );
+
+      init(); // Refresh student data after successful upload
     } catch (error) {
       console.log("Error:", error);
     }
-    init();
   };
 
   return (
-    <div>
+    <>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleSubmit}>Upload</button>
-    </div>
+    </>
   );
 }
 
