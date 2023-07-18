@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getStudents } from "../service";
+import { useNavigate } from "react-router-dom";
 
 function UploadData() {
+  const Navigate = useNavigate();
   const [data, setData] = useState([]);
 
   const init = async () => {
@@ -35,6 +37,7 @@ function UploadData() {
     } catch (error) {
       console.log("Error:", error);
     }
+    Navigate("/");
   };
 
   return (

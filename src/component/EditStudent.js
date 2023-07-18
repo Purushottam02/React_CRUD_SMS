@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { editStudentDetails, getStudentDetails } from "../service";
 import { useNavigate, useParams } from "react-router-dom";
+import "./style/EditStudent.scss";
+import { HEDER_TEXT } from "../constant";
 
 const Editstudent = () => {
   const navigate = useNavigate();
-  const [student, setStudent] = useState({});
+  const [student, setStudent] = useState({
+    name: "",
+    gender: "",
+    physics: "",
+    maths: "",
+    english: "",
+  });
   const { rollNo } = useParams();
 
   useEffect(() => {
     const fetchStudentDetails = async () => {
-      const student = await getStudentDetails(rollNo);
-      setStudent(student);
+      try {
+        const studentData = await getStudentDetails(rollNo);
+        setStudent(studentData);
+      } catch (error) {
+        console.error(error);
+        // Handle error
+      }
     };
 
     fetchStudentDetails();
@@ -38,56 +51,25 @@ const Editstudent = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input
-          type="text"
-          name="name"
-          value={student.name}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Gender:
-        <input
-          type="text"
-          name="gender"
-          value={student.gender}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Physics:
-        <input
-          type="text"
-          name="physics"
-          value={student.physics}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Maths:
-        <input
-          type="text"
-          name="maths"
-          value={student.maths}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        English:
-        <input
-          type="text"
-          name="english"
-          value={student.english}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
+      {Object.keys(HEDER_TEXT).map((field) => {
+        if (field !== "edit" && field !== "delete") {
+          return (
+            <div key={field}>
+              <label>
+                {HEDER_TEXT[field]}:
+                <input
+                  type="text"
+                  name={field}
+                  value={student[field]}
+                  onChange={handleChange}
+                />
+              </label>
+              <br />
+            </div>
+          );
+        }
+        return null;
+      })}
       <button type="submit">Submit</button>
     </form>
   );

@@ -20,7 +20,16 @@ export async function createStudents(student) {
 
 export async function getStudentDetails(rollNo) {
   try {
-    const response = await fetch(`http://localhost:8000/students/details/${rollNo}`);
+    const response = await fetch(
+      `http://localhost:8000/students/details/${rollNo}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Error fetching student details");

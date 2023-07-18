@@ -2,7 +2,7 @@ import "./style/StudentDetails.scss";
 import { useEffect, useState } from "react";
 import { getStudentDetails } from "../service";
 import { useParams } from "react-router-dom";
-import { DISPLAY_MAP } from "../constant";
+import { HEDER_TEXT } from "../constant";
 
 function StudentDetails() {
   const [students, setStudents] = useState();
@@ -19,16 +19,19 @@ function StudentDetails() {
 
   return (
     <div className="box-wrapper">
-      <div className="box">
-        <div className="details">
-          {students &&
-            Object.keys(students).map((field) => (
-              <div key={field} className="row">
-                <span className="field">{DISPLAY_MAP[field]}:</span>
-                <span className="value">{students[field]}</span>
-              </div>
-            ))}
-        </div>
+      <div className="details">
+        {students &&
+          Object.keys(HEDER_TEXT).map((field) => {
+            if (field !== "edit" && field !== "delete") {
+              return (
+                <div key={field} className="row">
+                  <span>{HEDER_TEXT[field]}:</span>
+                  <span className="value">{students[field]}</span>
+                </div>
+              );
+            }
+            return null;
+          })}
       </div>
     </div>
   );

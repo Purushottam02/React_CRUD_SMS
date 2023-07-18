@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { deleteStudent, getStudents } from "../service";
 import Paginate from "./Paginate";
 import SearchBar from "./Search";
-import UploadData from "./UploadData";
-import {HEDER_TEXT } from "../constant";
+import { HEDER_TEXT } from "../constant";
 import getTopScoreRollNo from "../utils";
 
 const text = "this is unique key";
@@ -60,16 +59,28 @@ function StudentTable() {
   const deleteStudentAction = async (studentId, index) => {
     data[index].isDeleting = true;
     setData([...data]);
-    await deleteStudent(studentId);
+    setTimeout(async () => {
+      data[index].isDeleting = false;
+      setData([...data]);
+      await deleteStudent(studentId);
+      init();
+    }, 500);
     init();
   };
   const MaxScoreRollNo = getTopScoreRollNo(data);
 
   return (
-    <>
+    <div className="wrapper">
       <div className="options">
         <div>
           <button onClick={Addstudent}>Add Student</button>
+        </div>
+        <div>
+          <SearchBar
+            onSearchInputChange={(text) => {
+              setSearchText(text);
+            }}
+          />
         </div>
         <div className="pageselector">
           <select name="items" value={pageSelect} onChange={handlechangePage}>
@@ -79,13 +90,6 @@ function StudentTable() {
               );
             })}
           </select>
-        </div>
-        <div>
-          <SearchBar
-            onSearchInputChange={(text) => {
-              setSearchText(text);
-            }}
-          />
         </div>
       </div>
 
@@ -102,17 +106,36 @@ function StudentTable() {
         <div className="container">
           {tableData.map((student, i) => {
             var isMaxScore = student.rollNo == MaxScoreRollNo;
-            const {rollNo,name,gender,physics,maths,english}=student
+            const { rollNo, name, gender, physics, maths, english } = student;
             return (
-              <div className={isMaxScore ? "table max-score" : "table"} key={`${text}${i}`}>
-                <a className="rollNo" href="#" onClick={() => StudentDetails(rollNo)}>{student.rollNo}</a>
+              <div
+                className={isMaxScore ? "table max-score" : "table"}
+                key={`${text}${i}`}
+              >
+                <a
+                  className="rollNo"
+                  href="#"
+                  onClick={() => StudentDetails(rollNo)}
+                >
+                  {student.rollNo}
+                </a>
                 <div className="name">{name}</div>
                 <div className="gender">{gender}</div>
                 <div className="physics">{physics}</div>
                 <div className="maths">{maths}</div>
                 <div className="english">{english}</div>
-                <div className="editdetails" onClick={() => EditDetails(rollNo)}>✎</div>
-                <div className={student.isDeleting ? "disable" : ""} onClick={() => deleteStudentAction(rollNo, i)}>🗑</div>
+                <div
+                  className="editdetails"
+                  onClick={() => EditDetails(rollNo)}
+                >
+                  ✎
+                </div>
+                <div
+                  className={student.isDeleting ? "disable" : "delete"}
+                  onClick={() => deleteStudentAction(rollNo, i)}
+                >
+                  🗑
+                </div>
               </div>
             );
           })}
@@ -126,10 +149,7 @@ function StudentTable() {
           paginate={paginate}
         />
       </div>
-      <div>
-        <UploadData />
-      </div>
-    </>
+    </div>
   );
 }
 
