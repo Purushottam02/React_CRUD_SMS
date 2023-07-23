@@ -5,39 +5,49 @@ import { deleteStudent, getStudents } from "../service";
 import Paginate from "./Paginate";
 import SearchBar from "./Search";
 import { HEDER_TEXT } from "../constant";
-import getTopScoreRollNo from "../utils";
+import { convertToJSONWithoutCircular, getTopScoreRollNo } from "../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { setStudentList } from "./redux/actions/studentsActions";
+import { setCurrentPage, setPageSelect } from "./redux/slices/paginationSlice";
 
 const text = "this is unique key";
 
 function StudentTable() {
-  const [data, setData] = useState([]);
+  const studentList = useSelector((state) => state.students.studentList);
+  const currentPage = useSelector((state) => state.pagination.currentPage);
+  const pageSelect = useSelector((state) => state.pagination.pageSelect);
+  // const searchText = useSelector((state) => state.pagination.searchText);
+
+  const dispatch = useDispatch();
   const init = async () => {
-    const student = await getStudents();
-    setData(student);
+    const response = await getStudents();
+    dispatch(setStudentList(response));
   };
+
   useEffect(() => {
     init();
   }, []);
+
   const pagesize = ["2", "5", "6", "10"];
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSelect, setPageSelect] = useState(5);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [pageSelect, setPageSelect] = useState(5);
   const [searchText, setSearchText] = useState("");
 
   const indexOfLastitem = currentPage * pageSelect;
   const indexOfFirstitem = indexOfLastitem - pageSelect;
-  const currentPosts = data.slice(indexOfFirstitem, indexOfLastitem);
+  const currentPosts = studentList.slice(indexOfFirstitem, indexOfLastitem);
 
   const handlechangePage = (e) => {
     e.preventDefault();
-    setPageSelect(e.target.value);
+    dispatch(setPageSelect(e.target.value));
   };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => dispatch(setCurrentPage(pageNumber));
 
   let tableData = currentPosts;
   if (searchText.length) {
-    tableData = data.filter((item) => {
+    tableData = studentList.filter((item) => {
       return item.name.toLowerCase().includes(searchText.toLowerCase());
     });
   }
@@ -56,18 +66,36 @@ function StudentTable() {
     let path = `/edit/${rollNo}`;
     navigate(path);
   };
+
   const deleteStudentAction = async (studentId, index) => {
-    data[index].isDeleting = true;
-    setData([...data]);
-    setTimeout(async () => {
-      data[index].isDeleting = false;
-      setData([...data]);
+    try {
+      const updatedStudentList = [...studentList];
+      updatedStudentList[index] = {
+        ...updatedStudentList[index],
+        isDeleting: true,
+      };
+
+      // You can log the JSON string representation for debugging
+      const jsonString = convertToJSONWithoutCircular(updatedStudentList);
+      console.log(jsonString);
+
+      dispatch(setStudentList(updatedStudentList));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       await deleteStudent(studentId);
-      init();
-    }, 500);
-    init();
+
+      // After deletion, create a new filtered list without the deleted student
+      const filteredStudentList = updatedStudentList.filter(
+        (_, i) => i !== index
+      );
+
+      // Update the Redux store with the new list
+      dispatch(setStudentList(filteredStudentList));
+    } catch (error) {
+      console.error("Error deleting student:", error);
+    }
   };
-  const MaxScoreRollNo = getTopScoreRollNo(data);
+
+  const MaxScoreRollNo = getTopScoreRollNo(studentList);
 
   return (
     <div className="wrapper">
@@ -145,7 +173,7 @@ function StudentTable() {
       <div className="paginate">
         <Paginate
           postsPerPage={pageSelect}
-          totalPosts={data.length}
+          totalPosts={studentList.length}
           paginate={paginate}
         />
       </div>

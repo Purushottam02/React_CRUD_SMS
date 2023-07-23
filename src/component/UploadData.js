@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { getStudents } from "../service";
 import { useNavigate } from "react-router-dom";
 
@@ -28,16 +27,20 @@ function UploadData() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await axios.put(
-        "http://localhost:8000/students/upload",
-        formData
-      );
+      const response = await fetch("http://localhost:8000/students/upload", {
+        method: "PUT",
+        body: formData,
+      });
 
-      init(); // Refresh student data after successful upload
+      if (response.ok) {
+        init();
+      } else {
+        console.error("Error:", response.statusText);
+      }
+      Navigate("/");
     } catch (error) {
-      console.log("Error:", error);
+      console.error("Error:", error);
     }
-    Navigate("/");
   };
 
   return (

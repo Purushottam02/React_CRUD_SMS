@@ -1,0 +1,5 @@
+export const ActionTypes = {
+  SET_STUDENTS: "SET_STUDENTS",
+  SET_FORM_DATA: "SET_FORM_DATA",
+  SET_STUDENT_DATA: "SET_STUDENT_DATA",
+};

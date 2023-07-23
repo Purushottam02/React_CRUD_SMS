@@ -1,10 +1,21 @@
-import axios from "axios";
 export async function getStudents() {
-  const response = await axios.get("http://localhost:8000/students", {
-    params: {},
-  });
-  return response.data;
+  try {
+    const response = await fetch("http://localhost:8000/students", {
+      method: "GET",
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error("Failed to fetch students data");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
 }
+
 export async function createStudents(student) {
   const response = await fetch("http://localhost:8000/students", {
     method: "POST",

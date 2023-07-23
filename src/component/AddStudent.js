@@ -1,13 +1,19 @@
+// AddStudent.js
+
 import "./style/AddStudent.scss";
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { HEDER_TEXT } from "../constant";
 import { createStudents } from "../service";
 import UploadData from "./UploadData";
+import { setFormData } from "./redux/actions/studentsActions";
 
 function AddStudent() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
+
+  const formData = useSelector((state) => state.students.formData);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,10 +27,7 @@ function AddStudent() {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+    dispatch(setFormData({ ...formData, [name]: value }));
   };
 
   const filteredFields = Object.keys(HEDER_TEXT).filter(
