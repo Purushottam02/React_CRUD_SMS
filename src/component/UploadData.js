@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { getStudents } from "../service";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setStudentList } from "./redux/actions/studentsActions";
 
 function UploadData() {
   const Navigate = useNavigate();
-  const [data, setData] = useState([]);
-
+  const dispatch = useDispatch();
+  
   const init = async () => {
-    const student = await getStudents();
-    setData(student);
+    const response = await getStudents();
+    dispatch(setStudentList(response));
   };
 
   useEffect(() => {

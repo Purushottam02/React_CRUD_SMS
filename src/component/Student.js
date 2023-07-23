@@ -5,7 +5,7 @@ import { deleteStudent, getStudents } from "../service";
 import Paginate from "./Paginate";
 import SearchBar from "./Search";
 import { HEDER_TEXT } from "../constant";
-import { convertToJSONWithoutCircular, getTopScoreRollNo } from "../utils";
+import getTopScoreRollNo from "../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setStudentList } from "./redux/actions/studentsActions";
 import { setCurrentPage, setPageSelect } from "./redux/slices/paginationSlice";
@@ -16,9 +16,10 @@ function StudentTable() {
   const studentList = useSelector((state) => state.students.studentList);
   const currentPage = useSelector((state) => state.pagination.currentPage);
   const pageSelect = useSelector((state) => state.pagination.pageSelect);
-  // const searchText = useSelector((state) => state.pagination.searchText);
 
   const dispatch = useDispatch();
+  let navigate = useNavigate();
+
   const init = async () => {
     const response = await getStudents();
     dispatch(setStudentList(response));
@@ -30,8 +31,6 @@ function StudentTable() {
 
   const pagesize = ["2", "5", "6", "10"];
 
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [pageSelect, setPageSelect] = useState(5);
   const [searchText, setSearchText] = useState("");
 
   const indexOfLastitem = currentPage * pageSelect;
@@ -52,21 +51,6 @@ function StudentTable() {
     });
   }
 
-  let navigate = useNavigate();
-
-  const Addstudent = () => {
-    let path = `/add`;
-    navigate(path);
-  };
-  const StudentDetails = (rollNo) => {
-    let path = `/Details/${rollNo}`;
-    navigate(path);
-  };
-  const EditDetails = (rollNo) => {
-    let path = `/edit/${rollNo}`;
-    navigate(path);
-  };
-
   const deleteStudentAction = async (studentId, index) => {
     try {
       const updatedStudentList = [...studentList];
@@ -76,8 +60,6 @@ function StudentTable() {
       };
 
       // You can log the JSON string representation for debugging
-      const jsonString = convertToJSONWithoutCircular(updatedStudentList);
-      console.log(jsonString);
 
       dispatch(setStudentList(updatedStudentList));
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -101,7 +83,7 @@ function StudentTable() {
     <div className="wrapper">
       <div className="options">
         <div>
-          <button onClick={Addstudent}>Add Student</button>
+          <button onClick={() => navigate("/add")}>Add Student</button>
         </div>
         <div>
           <SearchBar
@@ -143,7 +125,7 @@ function StudentTable() {
                 <a
                   className="rollNo"
                   href="#"
-                  onClick={() => StudentDetails(rollNo)}
+                  onClick={() => navigate(`/Details/${rollNo}`)}
                 >
                   {student.rollNo}
                 </a>
@@ -154,7 +136,7 @@ function StudentTable() {
                 <div className="english">{english}</div>
                 <div
                   className="editdetails"
-                  onClick={() => EditDetails(rollNo)}
+                  onClick={() => navigate(`/edit/${rollNo}`)}
                 >
                   ✎
                 </div>

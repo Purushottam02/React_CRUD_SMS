@@ -11,4 +11,4 @@ const getTopScoreRollNo = (students) => {
   }
   return maxScoreIndex;
 };
- export default getTopScoreRollNo;
+export default getTopScoreRollNo;
