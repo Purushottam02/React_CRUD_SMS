@@ -1,14 +1,18 @@
 import "./style/Student.scss";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { deleteStudent, getStudents } from "../service";
+import { useEffect } from "react";
+import { deleteStudent, getStudents } from "../services/service";
 import Paginate from "./Paginate";
 import SearchBar from "./Search";
 import { HEDER_TEXT } from "../constant";
 import getTopScoreRollNo from "../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setStudentList } from "./redux/actions/studentsActions";
-import { setCurrentPage, setPageSelect } from "./redux/slices/paginationSlice";
+import {
+  setCurrentPage,
+  setPageSelect,
+  setSearchText,
+} from "./redux/slices/paginationSlice";
 
 const text = "this is unique key";
 
@@ -16,7 +20,7 @@ function StudentTable() {
   const studentList = useSelector((state) => state.students.studentList);
   const currentPage = useSelector((state) => state.pagination.currentPage);
   const pageSelect = useSelector((state) => state.pagination.pageSelect);
-
+  const searchText = useSelector((state) => state.pagination.searchText);
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
@@ -30,8 +34,6 @@ function StudentTable() {
   }, []);
 
   const pagesize = ["2", "5", "6", "10"];
-
-  const [searchText, setSearchText] = useState("");
 
   const indexOfLastitem = currentPage * pageSelect;
   const indexOfFirstitem = indexOfLastitem - pageSelect;
@@ -58,8 +60,6 @@ function StudentTable() {
         ...updatedStudentList[index],
         isDeleting: true,
       };
-
-      // You can log the JSON string representation for debugging
 
       dispatch(setStudentList(updatedStudentList));
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -88,7 +88,7 @@ function StudentTable() {
         <div>
           <SearchBar
             onSearchInputChange={(text) => {
-              setSearchText(text);
+              dispatch(setSearchText(text));
             }}
           />
         </div>

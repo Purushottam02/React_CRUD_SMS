@@ -1,31 +1,39 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setRegistrationDetails } from "./redux/actions/authActions";
+import { signUp } from "../services/authServices";
 
 const Register = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const register = useSelector(
+    (state) => state.authorisation.registrationDetails
+  );
+  const dispatch = useDispatch();
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const updatedForm = {
+      ...register,
+      [name]: value,
+    };
+    console.log("form", updatedForm);
+    dispatch(setRegistrationDetails(updatedForm));
+  };
+  console.log("register", register);
   const handleRegister = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8000/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      });
-      if (response.ok) {
-        navigate("/login");
+      const isRegistered = await signUp(register);
+
+      if (isRegistered) {
+        navigate("/");
       } else {
-        alert("Registration failed. Please try again.");
+        console.error("Login failed");
       }
     } catch (error) {
-      console.error("Error during registration:", error);
-      alert("An error occurred during registration. Please try again later.");
+      console.error("Error during login:", error);
     }
   };
 
@@ -36,25 +44,25 @@ const Register = () => {
         <div className="form-group">
           <input
             type="text"
+            name="username"
             placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={handleChange}
           />
         </div>
         <div className="form-group">
           <input
             type="email"
+            name="email"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleChange}
           />
         </div>
         <div className="form-group">
           <input
             type="password"
+            name="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handleChange}
           />
         </div>
         <button type="submit">Register</button>

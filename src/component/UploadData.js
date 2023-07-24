@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { getStudents } from "../service";
+import React, { useEffect } from "react";
+import { getStudents } from "../services/service";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setStudentList } from "./redux/actions/studentsActions";
+import { setFile } from "./redux/slices/paginationSlice";
 
 function UploadData() {
   const Navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const init = async () => {
     const response = await getStudents();
     dispatch(setStudentList(response));
@@ -17,11 +18,10 @@ function UploadData() {
     init();
   }, []);
 
-  const [file, setFile] = useState(null);
-
+  const file = useSelector((state) => state.pagination.file);
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
-    setFile(selectedFile);
+    dispatch(setFile(selectedFile));
   };
 
   const handleSubmit = async () => {

@@ -19,3 +19,9 @@ export const setEditStudentData = (editStudentData) => {
     payload: editStudentData,
   };
 };
+export const setStudentDetails = (studentDetails) => {
+  return {
+    type: ActionTypes.SET_STUDENT_DETAILS,
+    payload: studentDetails,
+  };
+};

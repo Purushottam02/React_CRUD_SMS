@@ -19,9 +19,12 @@ const paginationSlice = createSlice({
     setSearchText: (state, action) => {
       state.searchText = action.payload;
     },
+    setFile: (state, action) => {
+      state.file = action.payload;
+    },
   },
 });
 
-export const { setCurrentPage, setPageSelect, setSearchText } =
+export const { setCurrentPage, setPageSelect, setSearchText, setFile } =
   paginationSlice.actions;
 export default paginationSlice.reducer;
