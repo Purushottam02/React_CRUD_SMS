@@ -5,7 +5,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { HEDER_TEXT } from "../constant";
-import { createStudents } from "../service";
+import { createStudents } from "../services/service";
 import UploadData from "./UploadData";
 import { setFormData } from "./redux/actions/studentsActions";
 

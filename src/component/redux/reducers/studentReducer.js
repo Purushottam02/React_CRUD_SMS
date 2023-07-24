@@ -9,6 +9,7 @@ const intialState = {
     maths: "",
     english: "",
   },
+  studentDetails: {},
 };
 
 export const studentReducer = (state = intialState, { type, payload }) => {
@@ -19,6 +20,8 @@ export const studentReducer = (state = intialState, { type, payload }) => {
       return { ...state, formData: payload };
     case ActionTypes.SET_STUDENT_DATA:
       return { ...state, editStudentForm: payload };
+    case ActionTypes.SET_STUDENT_DETAILS:
+      return { ...state, studentDetails: payload };
     default:
       return state;
   }

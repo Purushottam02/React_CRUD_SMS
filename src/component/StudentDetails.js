@@ -1,22 +1,22 @@
 import "./style/StudentDetails.scss";
-import { useEffect, useState } from "react";
-import { getStudentDetails } from "../service";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getStudentDetails } from "../services/service";
 import { useParams } from "react-router-dom";
 import { HEDER_TEXT } from "../constant";
-
+import { setStudentDetails } from "./redux/actions/studentsActions";
 function StudentDetails() {
-  const [students, setStudents] = useState();
+  const students = useSelector((state) => state.students.studentDetails);
+  const dispatch = useDispatch();
   const { rollNo } = useParams();
-
   useEffect(() => {
     const init = async () => {
       const student = await getStudentDetails(rollNo);
-      setStudents(student);
+      dispatch(setStudentDetails(student));
     };
-
     init();
-  }, [rollNo]);
-
+  }, [dispatch, rollNo]);
+  console.log(students);
   return (
     <div className="box-wrapper">
       <div className="details">
@@ -36,5 +36,4 @@ function StudentDetails() {
     </div>
   );
 }
-
 export default StudentDetails;

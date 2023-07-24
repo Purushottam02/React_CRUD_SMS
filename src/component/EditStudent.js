@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { HEDER_TEXT } from "../constant";
-import { editStudentDetails, getStudentDetails } from "../service";
+import { editStudentDetails, getStudentDetails } from "../services/service";
 import { setEditStudentData } from "./redux/actions/studentsActions";
 
 const Editstudent = () => {
